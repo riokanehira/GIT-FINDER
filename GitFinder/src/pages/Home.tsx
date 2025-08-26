@@ -1,13 +1,12 @@
 import { ROUTES } from "../const";
 
-
+import { GithubUser } from "../types/github";
 import { useState } from "react";
+import SearchBar from "./components/searchbar/SearchBar";
+import UserCard from "./components/userCard/UserCard";
 
-interface GithubUser {
-  login: string;
-  avatar_url: string;
-  html_url: string;
-}
+
+
 
 export default function Home() {
   const [keyword, setKeyword] = useState("");
@@ -19,56 +18,52 @@ export default function Home() {
     if (!keyword) return;
     setLoading(true);
     setError("");
-
     try {
-      const res = await fetch(`https://api.github.com/search/users?q=${keyword}`);
+      const res = await fetch(`https://api.github.com/search/users?q=${encodeURIComponent(keyword)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      setUsers(data.items || []);
-    } catch (err) {
-      setError("検索に失敗しました");
+      setUsers(Array.isArray(data.items) ? data.items : []);
+    } catch (e) {
+      setError("検索に失敗しました。時間を置いて再度お試しください。");
+      setUsers([]);
     } finally {
       setLoading(false);
     }
   };
 
-
-
-   const handleClear = () => {
+  const handleClear = () => {
     setKeyword("");
     setUsers([]);
     setError("");
-    // localStorage.removeItem("searchKeyword"); ←後で実装予定ならここ
   };
-
 
   return (
     <div className="container">
       <h1>GitHub User Finder</h1>
 
-      {/* 検索フォーム */}
-      <div>
-        <input
-          type="text"
-          value={keyword}
-          placeholder="ユーザー名を入力"
-          onChange={(e) => setKeyword(e.target.value)}
-        />
-        <button onClick={handleSearch}>検索</button>
-        <button onClick={handleClear}>クリア</button>
+      <SearchBar
+        keyword={keyword}
+        onKeywordChange={setKeyword}
+        onSearch={handleSearch}
+        onClear={handleClear}
+        loading={loading}
+      />
+
+      {/* 状態メッセージ */}
+      <div style={{ marginTop: 12 }}>
+        {error && <p /*style={{ color: "crimson" }}*/>{error}</p>}
+        {!loading && !error && users.length === 0 && keyword === "" && (
+          <p>ユーザー名を入力して検索してください。</p>
+        )}
+        {!loading && !error && users.length === 0 && keyword !== "" && (
+          <p>該当するユーザーが見つかりませんでした。</p>
+        )}
       </div>
 
-      {/* ローディング・エラー表示 */}
-      {loading && <p>検索中...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* 検索結果表示 */}
-      <div style={{ marginTop: "20px" }}>
-        {users.map((user) => (
-          <div key={user.login} style={{ border: "1px solid #ccc", padding: "10px", margin: "8px 0" }}>
-            <img src={user.avatar_url} alt={user.login} width={50} />
-            <h3>{user.login}</h3>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">プロフィールを見る</a>
-          </div>
+      {/* 結果一覧 */}
+      <div /*style={{ marginTop: 16, display: "grid", gap: 12 }}*/>
+        {users.map((u) => (
+          <UserCard key={u.login} user={u} />
         ))}
       </div>
     </div>

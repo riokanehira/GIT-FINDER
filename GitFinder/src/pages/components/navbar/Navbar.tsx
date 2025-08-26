@@ -1,6 +1,6 @@
 // ページ上部ナビゲーション
 import { NavLink } from "react-router-dom";
-import ThemeToggle from "../themeToggle/ThemeToggle";
+import ThemeToggle from "../themetoggle/ThemeToggle";
 
 export default function Navbar() {
   return (

@@ -1,0 +1,19 @@
+.form{
+    display: flex;
+    gap: 8px;
+}
+.input{
+    width: 80%;
+    text-align: center;
+    height: 40px;
+    padding: 10px 0;
+
+}
+.clearAll .search{
+    background: none;       /* 背景色をなくす */
+    border: none;           /* 枠線をなくす */
+    color: inherit;         /* 周囲の文字色に合わせる */
+    font: inherit;          /* 周囲のフォントに合わせる */
+    padding: 4px 8px;       /* クリックしやすさは確保 */
+    cursor: pointer;     
+}
