@@ -1,7 +1,6 @@
-
-
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useGithubUser } from "../types/github";
 
 interface User {
   login: string;
@@ -9,6 +8,11 @@ interface User {
   html_url: string;
   name: string;
   bio: string;
+  blog: string;
+  followers: number;
+  following: number;
+  public_repos: number;
+  public_gists: number;
 }
 
 interface Repo {
@@ -18,11 +22,16 @@ interface Repo {
   description: string;
 }
 
+
+
+
 const UserDetail = () => {
   const { username } = useParams<{ username: string }>();
+  const { user, repos, loading } = useGithubUser(username || "");
   const [user, setUser] = useState<User | null>(null);
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!username) return;
@@ -51,25 +60,34 @@ const UserDetail = () => {
   if (!user) return <div>User not found</div>;
 
   return (
-    <div>
-      <h1>{user.name || user.login}</h1>
-      <img src={user.avatar_url} alt={user.login} width={100} />
-      <p>{user.bio}</p>
-      <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-        Show Github Profile
-      </a>
+    <div className="container">
+      <button onClick={() => navigate("/")}>Back to Search</button>
 
-      <h2>Repositories</h2>
-      <ul>
+      {/* ユーザー情報 */}
+      <div className="profile-card">
+        <img src={user.avatar_url} alt={user.login} width={150} />
+        <h1>{user.name || user.login}</h1>
+        <p>{user.bio}</p>
+        <a href={user.html_url} target="_blank" rel="noopener noreferrer">Show Github Profile</a>
+        <p>Website: <a href={user.blog}>{user.blog}</a></p>
+        <div>
+          <span>Followers: {user.followers}</span>
+          <span>Following: {user.following}</span>
+          <span>Repository: {user.public_repos}</span>
+          <span>Gist: {user.public_gists}</span>
+        </div>
+      </div>
+
+      {/* リポジトリ一覧 */}
+      <div className="repo-grid">
         {repos.map((repo) => (
-          <li key={repo.id}>
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-              {repo.name}
-            </a>
+          <div className="repo-card" key={repo.id}>
+            <h3>{repo.name}</h3>
             <p>{repo.description}</p>
-          </li>
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">View on Github</a>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

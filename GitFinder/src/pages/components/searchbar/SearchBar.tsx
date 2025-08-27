@@ -34,7 +34,7 @@ export default function SearchBar({
         className={styles.input}
       />
       <button className={styles.search} type="submit" disabled={!keyword || loading}>
-        {loading ? "検索中..." : "検索"}
+        検索
       </button>
       <button
         type="button"
