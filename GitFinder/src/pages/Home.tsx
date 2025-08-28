@@ -1,4 +1,4 @@
-import { GithubUser } from "../types/github";
+//import { GithubUser } from "../types/github";
 import { useState } from "react";
 import SearchBar from "./components/searchbar/SearchBar";
 import UserCard from "./components/userCard/UserCard"; // ← usercard に統一
@@ -24,13 +24,13 @@ function loadInitialResults(): any[] {
   }
 }
 
-
+/*
 const KEYWORD_STORAGE_KEY = "gf:lastKeyword";
 function getInitialKeyword() {
   if (typeof window === "undefined") return "";
   return window.localStorage.getItem(KEYWORD_STORAGE_KEY) ?? "";
 }
-
+*/
 
 export default function Home() {
   // state 初期化を差し替え（既存の useState を置き換え）

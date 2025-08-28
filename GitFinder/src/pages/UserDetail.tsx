@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate/*, Link*/ } from "react-router-dom";
 import { GITHUB_API_HEADERS } from "../const";
 import styles from "../layout/userdetail.module.css";
 

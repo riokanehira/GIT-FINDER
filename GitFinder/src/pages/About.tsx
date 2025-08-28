@@ -1,4 +1,4 @@
-import { ROUTES } from "../const";
+//import { ROUTES } from "../const";
 import icon from "../assets/icon.png"
 
 export default function About() {
