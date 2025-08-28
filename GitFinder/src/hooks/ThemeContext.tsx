@@ -30,16 +30,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
-  // OSのテーマ変更を検知して、ユーザーが手動切替していない場合に追従したい
-  // （今回は「手動優先」なので追従しない実装。必要ならコメントを外して拡張）
-  // useEffect(() => {
-  //   const mq = window.matchMedia("(prefers-color-scheme: dark)");
-  //   const listener = (e: MediaQueryListEvent) => {
-  //     setThemeState(e.matches ? "dark" : "light");
-  //   };
-  //   mq.addEventListener("change", listener);
-  //   return () => mq.removeEventListener("change", listener);
-  // }, []);
+  
 
   const toggleTheme = () => setThemeState(prev => (prev === "light" ? "dark" : "light"));
   const setTheme = (t: Theme) => setThemeState(t);

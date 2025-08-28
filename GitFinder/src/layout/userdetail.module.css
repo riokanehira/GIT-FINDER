@@ -1,0 +1,88 @@
+.detailHead{ 
+    display:flex; 
+    align-items:center; 
+    gap:8px; 
+    margin:12px 0; 
+    padding: 10px 0;
+    background: none;       /* 背景色をなくす */
+    border: none;           /* 枠線をなくす */
+    color: inherit;         /* 周囲の文字色に合わせる */
+    font: inherit;          /* 周囲のフォントに合わせる */
+    cursor: pointer;     
+}
+/* ===== User Detail ===== */
+
+
+.detailCard{
+  background:#fff; 
+  border:1px solid #e5e7eb; 
+  border-radius:6px;
+  padding:24px; 
+  display:grid; 
+  grid-template-columns:160px 1fr 180px; 
+  gap:16px;
+}
+.detailAvatar{ 
+    width:160px; 
+    height:160px; 
+    object-fit:contain; 
+    border:1px solid #e5e7eb; 
+    border-radius:6px; 
+    background:#fafafa; 
+}
+.detailInfo h1{
+    margin:0 0 8px; 
+    font-size:28px; 
+}
+
+.detailInfo p{ 
+    margin:6px 0; 
+}
+.detailSide{ 
+    display:grid; 
+    gap:8px; 
+    align-content:start; 
+}
+.btnDark{
+  background:#333; color:#fff; border:none; border-radius:6px; height:40px; cursor:pointer;
+}
+.btnDark:disabled{ opacity:.6; cursor:not-allowed; }
+.kv{ color:#374151; }
+.kv strong{ display:inline-block; width:92px; color:#4b5563; }
+
+
+
+/* ===== repo grid ===== */
+.repoGrid{
+  display:grid;
+  gap:24px;
+  grid-template-columns: repeat(3, 1fr);          /* 2列以下はメディアクエリで */
+  align-items: stretch;                            /* ← 子要素の高さを揃える */
+}
+@media (max-width:1000px){ .repoGrid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:640px){ .repoGrid{ grid-template-columns: 1fr; } }
+
+.repoCard{
+  background:#fff; 
+  border:1px solid #e5e7eb; 
+  border-radius:6px;
+  padding:20px; 
+  text-align:center;
+}
+.repoName{ 
+    font-weight:700; 
+    margin:0 0 8px; 
+}
+.repoDesc{ 
+    color:#6b7280; 
+    min-height:36px; 
+    margin:0 0 12px; 
+}
+.repoBtn{
+  background:#333; 
+  color:#fff; 
+  border:none; 
+  border-radius:4px; 
+  padding:8px 12px; 
+  cursor:pointer;
+}

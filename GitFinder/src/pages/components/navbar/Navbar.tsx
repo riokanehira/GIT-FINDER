@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <header className="header">
       <nav className="nav" aria-label="Main">
-        <div className="brand">GitHub Finder</div>
+        <div className="brand" >GitHub Finder</div>
 
         <div className="navLinks">
           <NavLink

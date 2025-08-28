@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { GITHUB_API_HEADERS } from "../const";
+import styles from "../layout/userdetail.module.css";
 
 type User = {
   login: string;
@@ -83,20 +84,24 @@ export default function UserDetail() {
 
   return (
     <div className="container" style={{ display: "grid", gap: 16 }}>
-      <button onClick={() => navigate(-1)}>← Back</button>
+      <button className={styles.detailHead} onClick={() => navigate(-1)}>← Back</button>
 
       {/* ユーザー情報 */}
-      <section className="profile-card" style={{ display: "grid", gap: 12 }}>
-        <img src={user.avatar_url} alt={user.login} width={150} height={150} style={{ borderRadius: 8 }} />
-        <h1>{user.name || user.login}</h1>
-        {user.bio && <p>{user.bio}</p>}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-          {user.blog && (
-            <a href={/^https?:\/\//.test(user.blog) ? user.blog : `https://${user.blog}`} target="_blank" rel="noopener noreferrer">
+      <section className={styles.detailCard} >
+        <img className={styles.detailAvatar} src={user.avatar_url} alt={user.login} />
+        <div className={styles.detailInfo}>
+          <h1>{user.name || user.login}</h1>
+          {user.bio && <p>{user.bio}</p>}
+
+          <div >
+            <a className={styles.kv} href={user.html_url} target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+            
+            {user.blog && (
+              <a href={/^https?:\/\//.test(user.blog) ? user.blog : `https://${user.blog}`} target="_blank" rel="noopener noreferrer">
               Website
-            </a>
-          )}
+              </a>
+            )}
+          </div>
         </div>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <span>Followers: {user.followers}</span>
@@ -107,26 +112,27 @@ export default function UserDetail() {
       </section>
 
       {/* リポジトリ一覧 */}
-      <section className="repo-grid" style={{ display: "grid", gap: 12 }}>
-        <h2>Repositories</h2>
-        {repos.length === 0 && <p>公開リポジトリはありません。</p>}
+      <h2>Repositories</h2>
+      <section className={styles.repoGrid}>
+        {/*repos.length === 0 && <p>公開リポジトリはありません。</p>*/}
         {repos.map((repo) => (
-          <article key={repo.id} className="repo-card" style={{ padding: 12, border: "1px solid var(--border)", borderRadius: 8 }}>
-            <h3 style={{ margin: 0 }}>
-              <a href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a>
+          <article key={repo.id} className={styles.repoCard}>
+            <h3>
+              <a className={styles.repoName} href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a>
             </h3>
-            <p style={{ margin: "8px 0" }}>{repo.description ?? "No description"}</p>
-            <div style={{ fontSize: 12, opacity: 0.8 }}>
-              ⭐ {repo.stargazers_count}　Forks {repo.forks_count}　Updated {new Date(repo.updated_at).toLocaleString()}
+            <p >
+              {repo.description ?? "No description"}
+            </p>
+            <div className={styles.repoDesc}>
+              {repo.stargazers_count} Forks <br/>
+              {repo.forks_count} Updated <br/>
+              {new Date(repo.updated_at).toLocaleString()}
             </div>
           </article>
         ))}
       </section>
 
-      {/* 検索に戻る導線 */}
-      <div>
-        <Link to="/">🔎 検索に戻る</Link>
-      </div>
+      
     </div>
   );
 }

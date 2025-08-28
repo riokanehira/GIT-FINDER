@@ -29,13 +29,13 @@ export default function SearchBar({
       <input
         type="text"
         value={keyword}
-        placeholder="GitHubユーザーを検索"
+        placeholder="Search User"
         onChange={(e) => onKeywordChange(e.target.value)}
         aria-label="GitHubユーザー名"
         className={styles.input}
       />
       <button className={styles.search} type="submit" disabled={!keyword || loading}>
-        検索
+        Search
       </button>
       <button
         type="button"
@@ -44,7 +44,7 @@ export default function SearchBar({
         aria-label="検索条件と結果をクリア"
         className={styles.clearAll}
       >
-        クリア
+        Clear
       </button>
     </form>
   );

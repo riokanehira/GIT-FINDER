@@ -3,12 +3,43 @@ import { useState } from "react";
 import SearchBar from "./components/searchbar/SearchBar";
 import UserCard from "./components/userCard/UserCard"; // ← usercard に統一
 import { GITHUB_API_HEADERS } from "../const";
+import { useEffect } from "react";
+import styles from "../layout/home.module.css";
+
+const KEYWORD_KEY = "gf:lastKeyword";
+const RESULTS_KEY = "gf:lastResults";
+
+function loadInitialKeyword() {
+  if (typeof window === "undefined") return "";
+  return sessionStorage.getItem(KEYWORD_KEY) ?? "";
+}
+
+function loadInitialResults(): any[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = sessionStorage.getItem(RESULTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+
+const KEYWORD_STORAGE_KEY = "gf:lastKeyword";
+function getInitialKeyword() {
+  if (typeof window === "undefined") return "";
+  return window.localStorage.getItem(KEYWORD_STORAGE_KEY) ?? "";
+}
+
 
 export default function Home() {
-  const [keyword, setKeyword] = useState("");
-  const [users, setUsers] = useState<GithubUser[]>([]);
+  // state 初期化を差し替え（既存の useState を置き換え）
+  const [keyword, setKeyword] = useState(loadInitialKeyword);
+  const [users, setUsers] = useState<any[]>(loadInitialResults);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+
 
   const handleSearch = async () => {
     if (!keyword) return;
@@ -34,10 +65,24 @@ export default function Home() {
   };
 
   const handleClear = () => {
-    setKeyword("");
-    setUsers([]);
-    setError("");
+  setKeyword("");
+  setUsers([]);
+  setError("");
+  sessionStorage.removeItem(KEYWORD_KEY);
+  sessionStorage.removeItem(RESULTS_KEY);
   };
+  
+  // 変更を保存：import { useEffect } from "react"; を忘れずに
+  useEffect(() => {
+    sessionStorage.setItem(KEYWORD_KEY, keyword);
+  }, [keyword]);
+
+  useEffect(() => {
+    sessionStorage.setItem(RESULTS_KEY, JSON.stringify(users));
+  }, [users]);
+
+
+  
 
   return (
     <div className="container">
@@ -54,14 +99,14 @@ export default function Home() {
       <div style={{ marginTop: 12 }}>
         {error && <p>{error}</p>}
         {!loading && !error && users.length === 0 && keyword === "" && (
-          <p>ユーザー名を入力して検索してください。</p>
+          <p>Enter your username to search</p>
         )}
         {!loading && !error && users.length === 0 && keyword !== "" && (
-          <p>該当するユーザーが見つかりませんでした。</p>
+          <p>No matching users were found</p>
         )}
       </div>
 
-      <div>
+      <div className={styles.grid}>
         {users.map((u) => (
           <UserCard key={u.login} user={u} />
         ))}

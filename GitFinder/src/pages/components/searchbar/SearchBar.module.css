@@ -3,13 +3,15 @@
     gap: 8px;
 }
 .input{
-    width: 80%;
-    text-align: center;
-    height: 40px;
-    padding: 10px 0;
-
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    margin: 20px;
+    padding: 10px;
+    width: 100%;
+     
 }
-.clearAll .search{
+.clearAll, .search {
     background: none;       /* 背景色をなくす */
     border: none;           /* 枠線をなくす */
     color: inherit;         /* 周囲の文字色に合わせる */
@@ -17,3 +19,4 @@
     padding: 4px 8px;       /* クリックしやすさは確保 */
     cursor: pointer;     
 }
+
