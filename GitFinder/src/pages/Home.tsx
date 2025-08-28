@@ -1,7 +1,7 @@
 //import { GithubUser } from "../types/github";
 import { useState } from "react";
 import SearchBar from "./components/searchbar/SearchBar";
-import UserCard from "./components/userCard/UserCard"; // ← usercard に統一
+import UserCard from "./components/usercard/UserCard"; // ← usercard に統一
 import { GITHUB_API_HEADERS } from "../const";
 import { useEffect } from "react";
 import styles from "../layout/home.module.css";
