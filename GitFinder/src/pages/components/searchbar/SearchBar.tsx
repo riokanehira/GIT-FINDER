@@ -5,11 +5,12 @@ import styles from "./SearchBar.module.css";
 
 type Props = {
   keyword: string;
-  onKeywordChange: (value: string) => void;
+  onKeywordChange: (v: string) => void;
   onSearch: () => void;
   onClear: () => void;
-  loading?: boolean;
+  loading: boolean;
 };
+
 
 export default function SearchBar({
   keyword,
